@@ -1,0 +1,137 @@
+.login-parent {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding-top: 7%;
+    padding-bottom: 7%;
+    padding-left: 4%;
+    padding-right: 4%;
+    filter: none;
+}
+
+.background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    filter: blur(10px);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(5px);
+    z-index: -1;
+}
+
+html,
+body {
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    width: 100%;
+    font-family: Garamond;
+}
+
+.right-panel {
+    position: fixed;
+    right: 0;
+    width: 50%;
+    height: 100%;
+    background-image: url(https://images.pexels.com/photos/4406292/pexels-photo-4406292.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260);
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-position-y: 40%;
+}
+
+.left-panel {
+    position: absolute;
+    left: 0;
+    width: 50%;
+    height: 100%;
+    background-color: whitesmoke;
+    /*background-color: #e8d8b2*/
+}
+
+.container {
+    margin: 5%;
+    height: 90%;
+    width: 90%;
+}
+
+.text {
+    color: #232323
+}
+
+.paragraph {
+    font-size: small
+}
+
+.title {
+    color: #85200c;
+    background-color: whitesmoke;
+}
+
+label {
+    font-weight: normal;
+    padding: 1%;
+    font-family: calibri;
+    background-color: #333333;
+    color: white;
+    font-size: x-small;
+    text-shadow: 0px 0px 2px white;
+}
+
+.textbox {
+    width: 300px;
+    padding: 2%;
+    box-sizing: border-box;
+}
+
+.textbox:focus {
+    border: 2px solid #333333;
+}
+
+.button {
+    padding: 5%;
+    font: small bolder;
+    font-family: calibri;
+    width: 100%;
+    margin-top: 10%;
+    border: none;
+    color: whitesmoke;
+    background-color: #061102;
+}
+
+.a {
+    border: none;
+    transform: rotate(5deg);
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin-top: 20px;
+    padding: 1%;
+    font-family: calibri;
+    font-weight: bold;
+    font-size: small;
+    background-color: #061102;
+    color: white;
+}
+
+containerCentered {
+    height: 10em;
+    position: fixed
+}
+
+h3.login-header {
+    color: #85200c;
+    text-align: center;
+}
+
+.notice {
+    margin: 0;
+    position: fixed;
+    color: #85200c;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%)
+}

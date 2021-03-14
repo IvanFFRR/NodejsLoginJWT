@@ -1,0 +1,15 @@
+GET http://localhost:5000/
+Authentication: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImlmYWNybyIsImlhdCI6MTYxNTc1Mjk3MSwiZXhwIjoxNjE1NzUyOTg2fQ.UhImtWoU66mkk2P9vFO3rGXDIZqqS-J3tt7b2Gks8OI
+
+###
+POST http://localhost:5000/login
+Content-Type: application/json
+
+{
+    "username": "ifacro",
+    "password": "admin"
+}
+
+###
+POST http://localhost:5000/refresh
+Content-Type: application/json

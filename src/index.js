@@ -15,13 +15,8 @@ app
     .listen(PORT, () => console.log(`Listening on ${ PORT }`))
 
 app.get('/', authenticate, async(req, res) => {
-
     res.render('index')
 });
-
-app.get('/test', async(req, res) => {
-    res.send("Success!")
-})
 
 //renders the login landing page
 app.get('/login', async(req, res) => {
@@ -32,37 +27,40 @@ app.get('/login', async(req, res) => {
 app.post('/login', async(req, res) => {
     let user = await service.Login(req.body);
     if (user) {
-        const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15s' })
+        const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '10s' })
         const refresh = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET)
         await service.Authenticate(refresh);
         // res.json({ accessToken: token, refreshToken: refresh });
-        res.cookie("authentication", token)
+        res.cookie("accessToken", token)
+        res.cookie("refreshToken", refresh)
+        res.redirect('/')
     }
 })
 
-app.post('/refresh', async(req, res) => {
-    let refreshToken = req.body.token;
-    if (!refreshToken) return res.sendStatus(403)
-    var existingToken = await service.Refresh(refreshToken)
-    if (existingToken == null) return res.sendStatus(403)
-    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
-        if (err) return res.sendStatus(403)
-        const accessToken = jwt.sign({ username: user.username }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15s' })
+// app.post('/refresh', async(req, res) => {
+//     const refreshToken = req.cookies;
+//     if (!refreshToken) return res.sendStatus(403)
+//     const existingToken = await service.Refresh(refreshToken)
+//     if (existingToken == null) return res.sendStatus(403)
+//     jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
+//         if (err) return res.sendStatus(403)
+//         const accessToken = jwt.sign({ username: user.username }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15s' })
+//         res.cookie("accessToken", accessToken)
+//     })
+// })
 
-    })
-})
+// app.delete('/logout', async(req, res) => {
 
-app.delete('/logout', async(req, res) => {
-
-})
+// })
 
 function authenticate(req, res, next) {
-    const authenticationHeader = req.headers['authentication']
-    const token = authenticationHeader && authenticationHeader.split(' ')[1]
-    if (!token) res.sendStatus(401);
+    const cookies = req.headers.cookie.split(';')
+    const accessTokenCookie = cookies && cookies.find(x => x.startsWith('accessToken'));
+    const accessToken = accessTokenCookie && accessTokenCookie.split('=')[1]
+    if (!accessToken) res.redirect('/login')
 
-    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-        if (err) return res.sendStatus(403)
+    jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+        if (err) res.redirect('/login')
         req.user = user
         next()
     })

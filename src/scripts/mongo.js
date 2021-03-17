@@ -14,7 +14,8 @@ module.exports = {
     async AddUser(userMongoModel) { await AddUser(userMongoModel) },
     async GetUser(username) { return await GetUser(username) },
     async AddRefreshToken(token) { await AddRefreshToken(token) },
-    async GetRefreshToken(token) { return await GetRefreshToken(token) }
+    async GetRefreshToken(token) { return await GetRefreshToken(token) },
+    async DeleteRefreshToken(token) { await DeleteRefreshToken(token) }
 }
 
 async function AddUser(userMongoModel) {
@@ -58,5 +59,16 @@ async function AddRefreshToken(token) {
         await tokensCollection.insertOne({ token: token })
     } catch (e) {
         console.error(e);
+    }
+}
+
+async function DeleteRefreshToken(token) {
+    await client.Connect();
+    let db = client.db('LoginJwtTest')
+    let tokensCollection = db.collection('RefreshTokens');
+    try {
+        await tokensCollection.deleteOne({ token: token })
+    } catch (e) {
+        console.error(e)
     }
 }

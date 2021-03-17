@@ -1,11 +1,12 @@
-const { AddUser, GetUser, AddRefreshToken, GetRefreshToken } = require('./mongo')
+const { AddUser, GetUser, AddRefreshToken, GetRefreshToken, DeleteRefreshToken } = require('./mongo')
 const { hash } = require('./crypto')
 
 module.exports = {
     async RegisterUser(userDto) { await RegisterUser(userDto) },
     async Login(userDto) { return await Login(userDto.username, userDto.password) },
     async Authenticate(token) { await Authenticate(token) },
-    async Refresh(token) { return await Refresh(token) }
+    async Refresh(token) { return await Refresh(token) },
+    async Logout(token) { await Logout(token) }
 }
 
 async function RegisterUser(userDto) {
@@ -40,4 +41,8 @@ async function Refresh(token) {
 
 async function Authenticate(token) {
     await AddRefreshToken(token)
+}
+
+async function Logout(token) {
+    await DeleteRefreshToken(token)
 }
